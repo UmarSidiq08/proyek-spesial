@@ -33,20 +33,7 @@
         }
 
         /* ── Custom cursor ── */
-        .cursor {
-            position: fixed; width: 12px; height: 12px;
-            background: var(--rose); border-radius: 50%;
-            pointer-events: none; z-index: 9999;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: multiply;
-        }
-        .cursor-ring {
-            position: fixed; width: 36px; height: 36px;
-            border: 1.5px solid var(--blush); border-radius: 50%;
-            pointer-events: none; z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: width .3s, height .3s, border-color .2s;
-        }
+      
 
         /* ── Blobs ── */
         .blob { position: fixed; border-radius: 50%; filter: blur(60px); opacity: .45; pointer-events: none; }
