@@ -29,10 +29,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: none;
         }
-
-      
 
         /* ── Blobs ── */
         .blob { position: fixed; border-radius: 50%; filter: blur(60px); opacity: .45; pointer-events: none; }
@@ -84,14 +81,12 @@
         @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
         @keyframes fadeIn { to { opacity:1; } }
 
-        /* eyebrow */
         .eyebrow {
             font-size: .7rem; letter-spacing: .35em; text-transform: uppercase;
             color: var(--dusty); text-align: center; margin-bottom: 1.4rem;
             opacity: 0; animation: fadeUp .7s .4s forwards;
         }
 
-        /* title */
         .card-title {
             font-family: 'Cormorant Garamond', serif;
             font-size: 2.8rem; font-weight: 300; font-style: italic;
@@ -152,7 +147,7 @@
             background: linear-gradient(135deg, var(--blush), var(--rose));
             color: white; font-family: 'DM Sans', sans-serif;
             font-size: 1rem; font-weight: 500; letter-spacing: .05em;
-            cursor: none;
+            cursor: pointer;
             box-shadow: 0 8px 28px rgba(232,115,138,.35);
             transition: transform .22s, box-shadow .22s;
             margin-top: .5rem; position: relative; overflow: hidden;
@@ -177,7 +172,6 @@
         }
         .error-msg.show { opacity: 1; transform: translateY(0); }
 
-        /* shake on wrong */
         @keyframes shake {
             0%,100%{transform:translateX(0)}
             20%{transform:translateX(-6px)}
@@ -187,7 +181,6 @@
         }
         .card.shake { animation: shake .4s ease; }
 
-        /* footer */
         .card-footer {
             margin-top: 1.8rem; text-align:center;
             font-size: .72rem; color: var(--dusty); letter-spacing:.04em;
@@ -197,8 +190,6 @@
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 <div class="curtain" id="curtain"></div>
 
 <div class="blob blob-1"></div>
@@ -225,35 +216,16 @@
 
     <p class="error-msg" id="error"></p>
 
+    <p class="card-footer">Galeri Pribadi </p>
 </div>
 
 <script>
-    // Jika sudah login, langsung ke splash
     if (localStorage.getItem("login") === "true") window.location.href = "splash.html";
 
-    // Curtain open on load
     window.addEventListener("DOMContentLoaded", () => {
         const curtain = document.getElementById("curtain");
         curtain.classList.add("opening");
         setTimeout(() => { curtain.style.display = "none"; }, 700);
-    });
-
-    // Custom cursor
-    const cursor = document.getElementById("cursor");
-    const ring   = document.getElementById("cursorRing");
-    let mx=0, my=0, rx=0, ry=0;
-    document.addEventListener("mousemove", e => {
-        mx = e.clientX; my = e.clientY;
-        cursor.style.left = mx + "px"; cursor.style.top = my + "px";
-    });
-    (function loop() {
-        rx += (mx - rx) * .12; ry += (my - ry) * .12;
-        ring.style.left = rx + "px"; ring.style.top = ry + "px";
-        requestAnimationFrame(loop);
-    })();
-    document.querySelectorAll("button, input").forEach(el => {
-        el.addEventListener("mouseenter", () => { ring.style.width="52px"; ring.style.height="52px"; ring.style.borderColor="var(--rose)"; });
-        el.addEventListener("mouseleave", () => { ring.style.width="36px"; ring.style.height="36px"; ring.style.borderColor="var(--blush)"; });
     });
 
     // Falling petals
@@ -268,14 +240,12 @@
         petalWrap.appendChild(p);
     }
 
-    // Login logic
     function login() {
         const username = document.getElementById("username").value.trim();
         const password = document.getElementById("password").value.trim();
         const errorEl  = document.getElementById("error");
         const card     = document.getElementById("card");
 
-        // Ganti sesuai kredensial kamu
         if (username === "aisha" && password === "kicaumania") {
             errorEl.classList.remove("show");
             const curtain = document.getElementById("curtain");
@@ -289,13 +259,12 @@
             errorEl.textContent = "Username atau password salah 💔";
             errorEl.classList.add("show");
             card.classList.remove("shake");
-            void card.offsetWidth; // reflow
+            void card.offsetWidth;
             card.classList.add("shake");
             setTimeout(() => card.classList.remove("shake"), 450);
         }
     }
 
-    // Enter key support
     document.getElementById("username").addEventListener("keydown", e => { if (e.key === "Enter") document.getElementById("password").focus(); });
     document.getElementById("password").addEventListener("keydown", e => { if (e.key === "Enter") login(); });
     document.getElementById("loginBtn").addEventListener("click", login);
