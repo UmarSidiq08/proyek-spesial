@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Aisha 💖</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --blush:     #f4a7b9;
+            --rose:      #e8738a;
+            --deep-rose: #c94b6d;
+            --petal:     #fce4ec;
+            --cream:     #fff5f7;
+            --dusty:     #d4849a;
+            --text-dark: #3a1a24;
+            --text-mid:  #7a4a58;
+        }
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            overflow: hidden;
+            height: 100vh;
+            cursor: none;
+        }
+
+        .cursor {
+            position: fixed; width: 12px; height: 12px;
+            background: var(--rose); border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform .15s ease, background .2s;
+            mix-blend-mode: multiply;
+        }
+        .cursor-ring {
+            position: fixed; width: 36px; height: 36px;
+            border: 1.5px solid var(--blush); border-radius: 50%;
+            pointer-events: none; z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: transform .35s ease, width .3s, height .3s, border-color .2s;
+        }
+
+        .blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .45; pointer-events: none; }
+        .blob-1 { width:500px; height:500px; background:#f9c5d1; top:-15%; left:-10%; animation: drift1 8s ease-in-out infinite alternate; }
+        .blob-2 { width:400px; height:400px; background:#fad4de; bottom:-10%; right:-8%; animation: drift2 9s ease-in-out infinite alternate; }
+        .blob-3 { width:300px; height:300px; background:#f7b8c9; top:40%; left:30%; animation: drift3 11s ease-in-out infinite alternate; }
+
+        @keyframes drift1 { from{transform:translate(0,0)} to{transform:translate(30px,40px)} }
+        @keyframes drift2 { from{transform:translate(0,0)} to{transform:translate(-25px,-35px)} }
+        @keyframes drift3 { from{transform:translate(0,0)} to{transform:translate(20px,-20px)} }
+
+        .petal-wrap { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+        .fall-petal {
+            position: absolute; width: 10px; height: 14px;
+            background: radial-gradient(ellipse at 40% 30%, #f9c5d1, #e8738a88);
+            border-radius: 50% 5% 50% 5%; opacity: 0;
+            animation: fallDown linear infinite;
+        }
+        @keyframes fallDown {
+            0%   { transform: translateY(-20px) rotate(0deg); opacity:.7; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity:0; }
+        }
+
+        .splash-inner { position: relative; z-index: 2; text-align: center; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; }
+
+        .splash-eyebrow {
+            font-size: .75rem; letter-spacing: .35em; text-transform: uppercase;
+            color: var(--dusty); opacity: 0; transform: translateY(15px);
+            animation: fadeUp .8s .3s forwards;
+        }
+        .splash-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(4rem, 10vw, 8rem); font-weight: 300; font-style: italic;
+            color: var(--text-dark); line-height: 1; margin: .2em 0;
+            opacity: 0; transform: translateY(20px); animation: fadeUp .9s .55s forwards;
+        }
+        .splash-title span { color: var(--rose); }
+        .splash-sub {
+            font-size: 1rem; color: var(--text-mid); font-weight: 300;
+            opacity: 0; transform: translateY(15px);
+            animation: fadeUp .8s .85s forwards; margin-bottom: 3rem;
+        }
+        .click-btn {
+            display: inline-flex; align-items: center; gap: .75rem;
+            padding: 1.1rem 2.8rem; border: none; border-radius: 100px;
+            background: linear-gradient(135deg, var(--blush), var(--rose));
+            color: white; font-family: 'DM Sans', sans-serif;
+            font-size: 1rem; font-weight: 500; letter-spacing: .05em; cursor: none;
+            opacity: 0; transform: translateY(20px) scale(.95);
+            animation: fadeUp .8s 1.2s forwards;
+            box-shadow: 0 8px 30px rgba(232,115,138,.35);
+            transition: transform .25s ease, box-shadow .25s ease;
+            position: relative; overflow: hidden;
+        }
+        .click-btn::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,#fff4,transparent); opacity:0; transition:opacity .3s; }
+        .click-btn:hover { transform:translateY(-3px) scale(1.03); box-shadow:0 14px 40px rgba(232,115,138,.5); }
+        .click-btn:hover::before { opacity:1; }
+        .btn-icon { font-size:1.2rem; animation: pulse 2s 2s ease-in-out infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.3)} }
+
+        .splash-line {
+            width: 80px; height: 1px;
+            background: linear-gradient(to right, transparent, var(--blush), transparent);
+            margin: 2rem auto; opacity: 0; animation: fadeIn .6s 1s forwards;
+        }
+
+        @keyframes fadeUp { to { opacity:1; transform:translateY(0) scale(1); } }
+        @keyframes fadeIn { to { opacity:1; } }
+
+        /* Curtain */
+        .curtain {
+            position: fixed; inset:0; z-index: 200;
+            background: linear-gradient(135deg, var(--rose), var(--deep-rose));
+            transform: scaleY(0); transform-origin: bottom; pointer-events: none;
+        }
+        .curtain.closing { animation: curtainClose .55s cubic-bezier(.76,0,.24,1) forwards; }
+        .curtain.opening { transform: scaleY(1); transform-origin: top; animation: curtainOpen .55s .1s cubic-bezier(.76,0,.24,1) forwards; }
+        @keyframes curtainClose { from{transform:scaleY(0)} to{transform:scaleY(1)} }
+        @keyframes curtainOpen  { from{transform:scaleY(1)} to{transform:scaleY(0)} }
+    </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="curtain" id="curtain"></div>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+<div class="petal-wrap" id="petalWrap"></div>
+
+<div class="splash-inner">
+    <p class="splash-eyebrow">✦ galeri pribadi ✦</p>
+    <h1 class="splash-title">Untuk<br><span>Aisha</span></h1>
+    <div class="splash-line"></div>
+    <p class="splash-sub">Tempat menyimpan momen</p>
+    <button class="click-btn" id="enterBtn">
+        <span class="btn-icon">🌸</span>
+        Klik untuk melanjutkan
+    </button>
+</div>
+
+<script>
+    // Auth check
+    if (localStorage.getItem("login") !== "true") window.location.href = "index.html";
+
+    // Custom cursor
+    const cursor = document.getElementById("cursor");
+    const ring   = document.getElementById("cursorRing");
+    let mx=0, my=0, rx=0, ry=0;
+
+    document.addEventListener("mousemove", e => {
+        mx = e.clientX; my = e.clientY;
+        cursor.style.left = mx + "px"; cursor.style.top = my + "px";
+    });
+    (function loop() {
+        rx += (mx - rx) * .12; ry += (my - ry) * .12;
+        ring.style.left = rx + "px"; ring.style.top = ry + "px";
+        requestAnimationFrame(loop);
+    })();
+
+    document.querySelectorAll("button").forEach(el => {
+        el.addEventListener("mouseenter", () => { ring.style.width="52px"; ring.style.height="52px"; ring.style.borderColor="var(--rose)"; });
+        el.addEventListener("mouseleave", () => { ring.style.width="36px"; ring.style.height="36px"; ring.style.borderColor="var(--blush)"; });
+    });
+
+    // Falling petals
+    const petalWrap = document.getElementById("petalWrap");
+    for (let i = 0; i < 20; i++) {
+        const p = document.createElement("div"); p.className = "fall-petal";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.width  = (8  + Math.random() * 8)  + "px";
+        p.style.height = (10 + Math.random() * 10) + "px";
+        p.style.animationDuration = (6 + Math.random() * 8) + "s";
+        p.style.animationDelay   = (Math.random() * 6) + "s";
+        p.style.opacity = .5 + Math.random() * .4;
+        petalWrap.appendChild(p);
+    }
+
+    // Enter button → curtain → navigate to dashboard
+    document.getElementById("enterBtn").addEventListener("click", () => {
+        const curtain = document.getElementById("curtain");
+        curtain.classList.add("closing");
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 540);
+    });
+
+    // Page enter: jika datang dari dashboard, buka curtain
+    window.addEventListener("DOMContentLoaded", () => {
+        if (performance.navigation.type === 2 || document.referrer.includes("dashboard")) {
+            const curtain = document.getElementById("curtain");
+            curtain.classList.add("opening");
+            setTimeout(() => { curtain.classList.remove("opening"); curtain.style.display = "none"; }, 700);
+        }
+    });
+</script>
+</body>
+</html>

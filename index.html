@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login · Galeri Aisha 💖</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --blush:     #f4a7b9;
+            --rose:      #e8738a;
+            --deep-rose: #c94b6d;
+            --petal:     #fce4ec;
+            --cream:     #fff5f7;
+            --dusty:     #d4849a;
+            --text-dark: #3a1a24;
+            --text-mid:  #7a4a58;
+        }
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: none;
+        }
+
+        /* ── Custom cursor ── */
+        .cursor {
+            position: fixed; width: 12px; height: 12px;
+            background: var(--rose); border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: multiply;
+        }
+        .cursor-ring {
+            position: fixed; width: 36px; height: 36px;
+            border: 1.5px solid var(--blush); border-radius: 50%;
+            pointer-events: none; z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: width .3s, height .3s, border-color .2s;
+        }
+
+        /* ── Blobs ── */
+        .blob { position: fixed; border-radius: 50%; filter: blur(60px); opacity: .45; pointer-events: none; }
+        .blob-1 { width:500px; height:500px; background:#f9c5d1; top:-15%; left:-10%;  animation: drift1 8s  ease-in-out infinite alternate; }
+        .blob-2 { width:400px; height:400px; background:#fad4de; bottom:-10%; right:-8%; animation: drift2 9s  ease-in-out infinite alternate; }
+        .blob-3 { width:300px; height:300px; background:#f7b8c9; top:40%; left:30%;    animation: drift3 11s ease-in-out infinite alternate; }
+        @keyframes drift1 { from{transform:translate(0,0)} to{transform:translate(30px,40px)} }
+        @keyframes drift2 { from{transform:translate(0,0)} to{transform:translate(-25px,-35px)} }
+        @keyframes drift3 { from{transform:translate(0,0)} to{transform:translate(20px,-20px)} }
+
+        /* ── Falling petals ── */
+        .petal-wrap { position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+        .fall-petal {
+            position: absolute; width: 10px; height: 14px;
+            background: radial-gradient(ellipse at 40% 30%, #f9c5d1, #e8738a88);
+            border-radius: 50% 5% 50% 5%; opacity: 0;
+            animation: fallDown linear infinite;
+        }
+        @keyframes fallDown {
+            0%   { transform: translateY(-20px) rotate(0deg); opacity:.7; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity:0; }
+        }
+
+        /* ── Curtain ── */
+        .curtain {
+            position: fixed; inset:0; z-index: 200;
+            background: linear-gradient(135deg, var(--rose), var(--deep-rose));
+            transform: scaleY(1); transform-origin: top; pointer-events: none;
+        }
+        .curtain.opening { animation: curtainOpen .6s .05s cubic-bezier(.76,0,.24,1) forwards; }
+        .curtain.closing { transform:scaleY(0); transform-origin:bottom; animation: curtainClose .55s cubic-bezier(.76,0,.24,1) forwards; }
+        @keyframes curtainOpen  { from{transform:scaleY(1)} to{transform:scaleY(0)} }
+        @keyframes curtainClose { from{transform:scaleY(0)} to{transform:scaleY(1)} }
+
+        /* ── Card ── */
+        .card {
+            position: relative; z-index: 2;
+            background: rgba(255,255,255,.72);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(244,167,185,.3);
+            border-radius: 28px;
+            padding: 3rem 2.8rem 2.6rem;
+            width: min(420px, 92vw);
+            box-shadow: 0 20px 60px rgba(201,75,109,.12), 0 4px 16px rgba(201,75,109,.07);
+            opacity: 0; transform: translateY(28px);
+            animation: fadeUp .8s .25s forwards;
+        }
+
+        @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeIn { to { opacity:1; } }
+
+        /* eyebrow */
+        .eyebrow {
+            font-size: .7rem; letter-spacing: .35em; text-transform: uppercase;
+            color: var(--dusty); text-align: center; margin-bottom: 1.4rem;
+            opacity: 0; animation: fadeUp .7s .4s forwards;
+        }
+
+        /* title */
+        .card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem; font-weight: 300; font-style: italic;
+            color: var(--text-dark); text-align: center; line-height: 1.1;
+            margin-bottom: .3rem;
+            opacity: 0; animation: fadeUp .8s .5s forwards;
+        }
+        .card-title span { color: var(--rose); }
+
+        .divider {
+            width: 60px; height: 1px;
+            background: linear-gradient(to right, transparent, var(--blush), transparent);
+            margin: 1.1rem auto 1.6rem;
+            opacity: 0; animation: fadeIn .6s .7s forwards;
+        }
+
+        .card-sub {
+            font-size: .85rem; color: var(--text-mid); font-weight: 300;
+            text-align: center; margin-bottom: 2rem;
+            opacity: 0; animation: fadeUp .7s .75s forwards;
+        }
+
+        /* ── Form fields ── */
+        .field {
+            position: relative; margin-bottom: 1.1rem;
+            opacity: 0; animation: fadeUp .6s forwards;
+        }
+        .field:nth-child(1){ animation-delay:.85s }
+        .field:nth-child(2){ animation-delay:.95s }
+
+        .field-icon {
+            position: absolute; left: 1.1rem; top: 50%; transform: translateY(-50%);
+            font-size: 1rem; pointer-events: none; user-select: none;
+        }
+
+        .field input {
+            width: 100%;
+            padding: .9rem 1.1rem .9rem 2.8rem;
+            border: 1.5px solid rgba(244,167,185,.4);
+            border-radius: 14px;
+            background: rgba(255,245,247,.7);
+            font-family: 'DM Sans', sans-serif;
+            font-size: .95rem; color: var(--text-dark);
+            outline: none;
+            transition: border-color .22s, box-shadow .22s, background .22s;
+        }
+        .field input::placeholder { color: var(--dusty); font-weight: 300; }
+        .field input:focus {
+            border-color: var(--rose);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(232,115,138,.12);
+        }
+
+        /* ── Login button ── */
+        .login-btn {
+            width: 100%; padding: 1rem;
+            border: none; border-radius: 14px;
+            background: linear-gradient(135deg, var(--blush), var(--rose));
+            color: white; font-family: 'DM Sans', sans-serif;
+            font-size: 1rem; font-weight: 500; letter-spacing: .05em;
+            cursor: none;
+            box-shadow: 0 8px 28px rgba(232,115,138,.35);
+            transition: transform .22s, box-shadow .22s;
+            margin-top: .5rem; position: relative; overflow: hidden;
+            opacity: 0; animation: fadeUp .6s 1.05s forwards;
+        }
+        .login-btn::before {
+            content:''; position:absolute; inset:0;
+            background: linear-gradient(135deg, #fff3, transparent);
+            opacity:0; transition:opacity .3s;
+        }
+        .login-btn:hover { transform:translateY(-2px); box-shadow:0 14px 36px rgba(232,115,138,.48); }
+        .login-btn:hover::before { opacity:1; }
+        .login-btn:active { transform:scale(.98); }
+
+        /* ── Error message ── */
+        .error-msg {
+            min-height: 1.4rem; margin-top: 1rem;
+            font-size: .82rem; color: var(--deep-rose);
+            text-align: center; font-weight: 400;
+            opacity: 0; transform: translateY(-4px);
+            transition: opacity .3s, transform .3s;
+        }
+        .error-msg.show { opacity: 1; transform: translateY(0); }
+
+        /* shake on wrong */
+        @keyframes shake {
+            0%,100%{transform:translateX(0)}
+            20%{transform:translateX(-6px)}
+            40%{transform:translateX(6px)}
+            60%{transform:translateX(-4px)}
+            80%{transform:translateX(4px)}
+        }
+        .card.shake { animation: shake .4s ease; }
+
+        /* footer */
+        .card-footer {
+            margin-top: 1.8rem; text-align:center;
+            font-size: .72rem; color: var(--dusty); letter-spacing:.04em;
+            opacity: 0; animation: fadeIn .6s 1.2s forwards;
+        }
+    </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="curtain" id="curtain"></div>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+<div class="petal-wrap" id="petalWrap"></div>
+
+<div class="card" id="card">
+    <p class="eyebrow">✦ galeri pribadi ✦</p>
+    <h1 class="card-title">Selamat<br><span>Datang</span></h1>
+    <div class="divider"></div>
+    <p class="card-sub">Masukkan namamu untuk melanjutkan 🌸</p>
+
+    <div class="field">
+        <span class="field-icon">👤</span>
+        <input type="text" id="username" placeholder="Username" autocomplete="off">
+    </div>
+    <div class="field">
+        <span class="field-icon">🔒</span>
+        <input type="password" id="password" placeholder="Password">
+    </div>
+
+    <button class="login-btn" id="loginBtn">Masuk →</button>
+
+    <p class="error-msg" id="error"></p>
+
+</div>
+
+<script>
+    // Jika sudah login, langsung ke splash
+    if (localStorage.getItem("login") === "true") window.location.href = "splash.html";
+
+    // Curtain open on load
+    window.addEventListener("DOMContentLoaded", () => {
+        const curtain = document.getElementById("curtain");
+        curtain.classList.add("opening");
+        setTimeout(() => { curtain.style.display = "none"; }, 700);
+    });
+
+    // Custom cursor
+    const cursor = document.getElementById("cursor");
+    const ring   = document.getElementById("cursorRing");
+    let mx=0, my=0, rx=0, ry=0;
+    document.addEventListener("mousemove", e => {
+        mx = e.clientX; my = e.clientY;
+        cursor.style.left = mx + "px"; cursor.style.top = my + "px";
+    });
+    (function loop() {
+        rx += (mx - rx) * .12; ry += (my - ry) * .12;
+        ring.style.left = rx + "px"; ring.style.top = ry + "px";
+        requestAnimationFrame(loop);
+    })();
+    document.querySelectorAll("button, input").forEach(el => {
+        el.addEventListener("mouseenter", () => { ring.style.width="52px"; ring.style.height="52px"; ring.style.borderColor="var(--rose)"; });
+        el.addEventListener("mouseleave", () => { ring.style.width="36px"; ring.style.height="36px"; ring.style.borderColor="var(--blush)"; });
+    });
+
+    // Falling petals
+    const petalWrap = document.getElementById("petalWrap");
+    for (let i = 0; i < 20; i++) {
+        const p = document.createElement("div"); p.className = "fall-petal";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.width  = (8  + Math.random() * 8)  + "px";
+        p.style.height = (10 + Math.random() * 10) + "px";
+        p.style.animationDuration = (6 + Math.random() * 8) + "s";
+        p.style.animationDelay   = (Math.random() * 6) + "s";
+        petalWrap.appendChild(p);
+    }
+
+    // Login logic
+    function login() {
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const errorEl  = document.getElementById("error");
+        const card     = document.getElementById("card");
+
+        // Ganti sesuai kredensial kamu
+        if (username === "aisha" && password === "kicaumania") {
+            errorEl.classList.remove("show");
+            const curtain = document.getElementById("curtain");
+            curtain.style.display = "block";
+            curtain.classList.add("closing");
+            setTimeout(() => {
+                localStorage.setItem("login", "true");
+                window.location.href = "splash.html";
+            }, 540);
+        } else {
+            errorEl.textContent = "Username atau password salah 💔";
+            errorEl.classList.add("show");
+            card.classList.remove("shake");
+            void card.offsetWidth; // reflow
+            card.classList.add("shake");
+            setTimeout(() => card.classList.remove("shake"), 450);
+        }
+    }
+
+    // Enter key support
+    document.getElementById("username").addEventListener("keydown", e => { if (e.key === "Enter") document.getElementById("password").focus(); });
+    document.getElementById("password").addEventListener("keydown", e => { if (e.key === "Enter") login(); });
+    document.getElementById("loginBtn").addEventListener("click", login);
+</script>
+</body>
+</html>
